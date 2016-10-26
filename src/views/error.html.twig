@@ -1,0 +1,37 @@
+<html>
+<head>
+    <title>
+        Error {{ code }} - Apache custom homepage for developers
+    </title>
+</head>
+<body>
+<h1>Apache custom homepage for developers</h1>
+<h3>Error {{ code }}</h3>
+<p>{{ message }}</p>
+{% if traces is defined %}
+    <h3>Traces</h3>
+    <ol>
+        {% for trace in traces %}
+            <li>
+                {% if trace.file is defined %}
+                    {{ trace.file }}
+                    {% if trace.line is defined %}
+                        ({{ trace.line }})
+                    {% endif %}
+                    <br>
+                {% endif %}
+                {% if trace.class is defined %}
+                    {{ trace.class }}
+                    {% if trace.type is defined %}
+                        {{ trace.type }}
+                    {% else %}
+                        ::
+                    {% endif %}
+                {% endif %}
+                {{ trace.function }}()
+            </li>
+        {% endfor %}
+    </ol>
+{% endif %}
+</body>
+</html>

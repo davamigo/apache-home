@@ -1,0 +1,98 @@
+<html>
+    <head>
+        <title>Apache custom homepage for developers</title>
+        <meta charset="utf-8">
+    </head>
+    <body>
+        <h1>Apache custom homepage for developers</h1>
+
+        {##
+         # FILES
+         #}
+
+        <h3>Files</h3>
+        {% if files is empty %}
+            <p>No files found!</p>
+        {% else %}
+            <ul>
+                {% for file in files %}
+                    <li>
+                        <a href="{{ scheme | default('http') }}://{{ host | default('localhost') }}/{{ file }}">
+                            {{ file }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        {##
+         # FOLDERS
+         #}
+
+        <h3>Folders</h3>
+        {% if folders is empty %}
+            <p>No folders found!</p>
+        {% else %}
+            <ul>
+                {% for folder in folders %}
+                    <li>
+                        <a href="{{ scheme | default('http') }}://{{ host | default('localhost') }}/{{ folder }}">
+                            {{ folder }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        {##
+         # PORTS
+         #}
+
+        <h3>Ports</h3>
+        {% if ports is empty %}
+            <p>No ports found!</p>
+        {% else %}
+            <ul>
+                {% for port in ports %}
+                    <li>
+                        <a href="{{ scheme | default('http') }}://{{ host | default('localhost') }}:{{ port }}">{{ port }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        {##
+         # VIRTUAL HOSTS
+         #}
+
+        <h3>Virtual Hosts</h3>
+        {% if vhosts is empty %}
+            <p>No virtual hosts found!</p>
+        {% else %}
+            <ul>
+                {% for vhost in vhosts %}
+                    <li>
+                        <a href="{{ scheme | default('http') }}://{{ vhost.serverName }}">{{ vhost.serverName }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        {##
+         # CGIs
+         #}
+
+        <h3>CGIs (Common Gateway Inferfaces)</h3>
+        {% if cgis is empty %}
+            <p>No CGIs found!</p>
+        {% else %}
+            <ul>
+                {% for cgi in cgis %}
+                    <li>
+                        <a href="{{ scheme | default('http') }}://{{ host | default('localhost') }}/{{ cgipath | default('cgi-bin') }}/{{ cgi }}">{{ cgi }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </body>
+</html>
