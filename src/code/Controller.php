@@ -25,34 +25,23 @@ class Controller
      */
     public function index(Request $request, Application $app)
     {
-        $rootFolder = $_SERVER['DOCUMENT_ROOT'];
-        if (!$rootFolder) {
-            $rootFolder = __DIR__ . '/../..';
+        $documentRoot = $_SERVER['DOCUMENT_ROOT'];
+        if (!$documentRoot) {
+            $documentRoot = __DIR__ . '/../..';
         }
 
-        $cgiPath = 'cgi-bin';
-        $cgiFolder = '/var/www/' . $cgiPath . '/';
+        $cgiFolder = 'cgi-bin';
+        $cgiPath = '/var/www/' . $cgiFolder . '/';
 
-        $filesToIgnore = array(
-            '.gitignore',
-            'composer.json',
-            'composer.lock',
-            'index.php',
-            'README.md'
-        );
+        $filesToIgnore = array();
 
         $foldersToIgnore = array(
             '.',
-            '..',
-            '.idea',
-            '.git',
-            'bin',
-            'src',
-            'vendor'
+            '..'
         );
 
         $files = new Files(
-            $rootFolder,
+            $documentRoot,
             $filesToIgnore,
             $foldersToIgnore
         );
@@ -61,7 +50,7 @@ class Controller
 
         $virtualHosts = new VirtualHosts();
 
-        $cgis = new CgiFiles($cgiFolder, array(
+        $cgis = new CgiFiles($cgiPath, array(
             '.',
             '..',
         ));
@@ -72,12 +61,12 @@ class Controller
         return $app->render('index.html.twig', array(
             'host'      => $host,
             'scheme'    => $scheme,
-            'cgipath'   => $cgiPath,
+            'cgifolder' => $cgiFolder,
             'files'     => $files->getFiles(),
             'folders'   => $files->getFolders(),
             'ports'     => $ports->getPorts(),
             'vhosts'    => $virtualHosts->getVirtualHosts(),
-            'cgis'      => $cgis->getFiles() + $cgis->getFolders()
+            'cgis'      => $cgis->getFilesAndFolders()
         ));
     }
 }

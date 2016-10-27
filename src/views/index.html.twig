@@ -89,7 +89,7 @@
             <ul>
                 {% for cgi in cgis %}
                     <li>
-                        <a href="{{ scheme | default('http') }}://{{ host | default('localhost') }}/{{ cgipath | default('cgi-bin') }}/{{ cgi }}">{{ cgi }}</a>
+                        <a href="{{ scheme | default('http') }}://{{ host | default('localhost') }}/{{ cgifolder | default('cgi-bin') }}/{{ cgi }}">{{ cgi }}</a>
                     </li>
                 {% endfor %}
             </ul>
