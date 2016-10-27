@@ -1,0 +1,11 @@
+parameters:
+    root_folder: ~
+    cgi_path: ~
+    cgi_folder: ~
+    files_to_ignore: []
+    folders_to_ignore:
+      - ".."
+      - "."
+    default_host: ~
+    default_schema: ~
+
