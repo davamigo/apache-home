@@ -5,6 +5,7 @@ namespace Davamigo\ApacheHome;
 use Davamigo\ApacheHome\Model\CgiFiles;
 use Davamigo\ApacheHome\Model\Files;
 use Davamigo\ApacheHome\Model\Ports;
+use Davamigo\ApacheHome\Model\ReadConfig;
 use Davamigo\ApacheHome\Model\VirtualHosts;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,43 +26,33 @@ class Controller
      */
     public function index(Request $request, Application $app)
     {
-        $documentRoot = $_SERVER['DOCUMENT_ROOT'];
-        if (!$documentRoot) {
-            $documentRoot = __DIR__ . '/../..';
-        }
+        // Read config file
+        $config = new ReadConfig();
 
-        $cgiFolder = 'cgi-bin';
-        $cgiPath = '/var/www/' . $cgiFolder . '/';
-
-        $filesToIgnore = array();
-
-        $foldersToIgnore = array(
-            '.',
-            '..'
-        );
-
+        // Scan files and folders
         $files = new Files(
-            $documentRoot,
-            $filesToIgnore,
-            $foldersToIgnore
+            $config->getDocumentRoot(),
+            $config->getIgnoreFiles(),
+            $config->getIgnoreFolders()
         );
 
+        // Scan ports
         $ports = new Ports();
 
+        // Scan virtual hosts
         $virtualHosts = new VirtualHosts();
 
-        $cgis = new CgiFiles($cgiPath, array(
-            '.',
-            '..',
-        ));
-
-        $host = (isset($_SERVER) && isset($_SERVER['HTTP_HOST'])) ? $_SERVER['HTTP_HOST'] : 'localhost';
-        $scheme = (isset($_SERVER) && isset($_SERVER['REQUEST_SCHEME'])) ? $_SERVER['REQUEST_SCHEME'] : 'http';
+        // Scan CGI files
+        $cgis = new CgiFiles(
+            $config->getCgiBinPath(),
+            $config->getCgiIgnoreFiles(),
+            $config->getCgiIgnoreFolders()
+        );
 
         return $app->render('index.html.twig', array(
-            'host'      => $host,
-            'scheme'    => $scheme,
-            'cgifolder' => $cgiFolder,
+            'host'      => $config->getHttpHost(),
+            'scheme'    => $config->getRequestSchema(),
+            'cgifolder' => $config->getCgiBinFolder(),
             'files'     => $files->getFiles(),
             'folders'   => $files->getFolders(),
             'ports'     => $ports->getPorts(),

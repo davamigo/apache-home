@@ -14,15 +14,16 @@ class CgiFiles extends Files
      * Files constructor.
      *
      * @param string $basedir
-     * @param array  $ignores
+     * @param array  $filesToIgnore
+     * @param array  $foldersToIgnore
      */
-    public function __construct($basedir = null, array $ignores = array())
+    public function __construct($basedir = null, array $filesToIgnore = array(), array $foldersToIgnore = array())
     {
         if (!$basedir) {
             $basedir = '/var/www/cgi-bin/';
         }
 
-        parent::__construct($basedir, $ignores, $ignores);
+        parent::__construct($basedir, $filesToIgnore, $foldersToIgnore);
     }
 
     /**

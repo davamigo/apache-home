@@ -3,28 +3,33 @@ parameters:
   # The default document root. By default $_SERVER['DOCUMENT_ROOT'] (i.e: /var/www/html/)
   document_root: ~
 
-  # The default request schema. By default $_SERVER['REQUEST_SCHEME'] (i.e: http)
-  request_schema: ~
+  # Files to ignore
+  ignore_files:
+    - .htaccess
+    - index.html
+    - index.php
+
+  # Folders to ignore
+  ignore_folders:
+    - ".."
+    - "."
+
+  # The default folder for cgi-bin files (i.e: cgi-bin)
+  cgi_bin_folder: ~
+
+  # The default path for cgi-bin files (i.e: /var/www/cgi-bin/)
+  cgi_bin_path: ~
+
+  # Files to ignore
+  cgi_ignore_files: []
+
+  # Folders to ignore
+  cgi_ignore_folders:
+    - ".."
+    - "."
+
+  # The default request scheme. By default $_SERVER['REQUEST_SCHEME'] (i.e: http)
+  request_scheme: ~
 
   # The default host. By default $_SERVER['HTTP_HOST'] (i.e: localhost)
   http_host: ~
-
-  cgi-bin:
-
-    # The default folder for cgi-bin files (i.e: cgi-bin)
-    folder: ~
-
-    # The default path for cgi-bin files (i.e: /var/www/cgi-bin/)
-    path: ~
-
-  # Files and folders to ignore
-  ignore:
-    files:
-      - index.html
-      - index.php
-
-    folders:
-      - ".."
-      - "."
-
-
